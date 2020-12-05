@@ -1,0 +1,72 @@
+﻿---
+title: ffffffffffff
+author: Cotes Chung
+date: 2019-08-08 11:33:00 +0800
+categories: [Blogging, Demo]
+tags: [typography]
+math: true
+image: /assets/img/sample/devices-mockup.png
+---
+
+# 使用ssh方式通过git密钥远程管理github
+## 通过git密钥管理githup，首先要安装ssh工具
+进入root模式
+```
+sudo su
+```
+更新软件库
+```
+apt-get update
+```
+安装ssh服务
+```
+apt-get install openssh-server
+```
+可以检查是否成功，成功会有进程提示
+```
+ps -e | grep ssh
+```
+#### ssh中一些简单的命令
+启动ssh服务
+```
+sudo service ssh start
+```
+关闭ssh服务
+```
+sudo service ssh stop
+```
+
+## 安装ssh完成之后，进行git安装和远程密钥登陆
+```
+sudo apt-get install git
+```
+安装git，并进行基本配置
+账号名称"qfr.ssh" 
+```
+git config --global user.name "qfr.ssh" 
+```
+邮箱地址 "201823060124@stu.csust.edu.cn”
+```
+git config --global user.email  "201823060124@stu.csust.edu.cn”
+```
+生成密钥文件
+```
+ssh-keygen -C  "201823060124@stu.csust.edu.cn” -t rsa
+```
+这个文件会在用户家目录的ssh下存放密钥文件
+```
+Your public key has been saved in /home/qfr/.ssh/id_rsa.pub.
+```
+上传刚建立的公钥，进入ssh文件夹
+```
+cd ~/.ssh
+ ```
+ 打开id_rsa.pub，其中还有一个文件叫id-rsa为私钥
+```
+gedit id-rsa.pub或者 cat id-rsa.pub
+```
+复制其中所有内容。接着访问githup中个人设置settings，点击SSH and GPG KEYS，输入一个合适的标题，公钥栏把你刚才复制的内容粘贴进去就可以了。
+测试是否连接畅通
+```
+ssh -T git@git.oschina.net
+```
